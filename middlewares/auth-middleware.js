@@ -6,10 +6,8 @@ module.exports = async (req, res, next) => {
   try {
     const { authorization } = req.cookies;
     const [tokenType, token] = authorization.split(" ");
-    if (tokenType !== "Bearer") {
+    if (tokenType !== "Bearer" || !token) {
       return res.status(401).json({ message: "토큰 타입이 일치하지 않습니다." });
-    }else if(tokenType !== token){
-        return res.status(401).json({ message: "토큰이 존재하지 않습니다." });
     }
 
     const decodedToken = jwt.verify(token, "customized_secret_key");
